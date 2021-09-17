@@ -13,6 +13,10 @@ class CalculatorViewController: UIViewController {
     
     //@IBOutlet var digitButtons: [UIButton]!
     
+    var firstNumber: Double = 0.0
+    var operation: String = ""
+    let operations = MathOperations()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,7 +24,7 @@ class CalculatorViewController: UIViewController {
     }
     
     private var isTyping: Bool = false
-    
+        
     @IBAction func digitButtonTapped(_ sender: UIButton) {
         let digit = String(sender.tag)
         let displayText = resultLabel.text ?? ""
@@ -35,22 +39,93 @@ class CalculatorViewController: UIViewController {
     }
     
     @IBAction func actionButtonTapped(_ sender: UIButton) {
-        
         let value = NSString(string: resultLabel.text ?? "0").doubleValue
-        resultLabel.text = String(sqrt(value))
-    }
-    
-    
-    
-    
-    /*
-    // MARK: - Navigation
+        
+        switch sender.tag {
+        case 16:                                         //Square Button Tapped
+            resultLabel.text = String(sqrt(value))
+        case 10:                                        //Add Button Tapped
+            firstNumber = value
+            operation = "plus"
+            resultLabel.text = ""
+        case 11:                                        //Minus Button Tapped
+            firstNumber = value
+            operation = "minus"
+            resultLabel.text = ""
+        case 12:                                        //Multiply Button Tapped
+            firstNumber = value
+            operation = "multiply"
+            resultLabel.text = ""
+        case 13:                                        //Divide Button Tapped
+            firstNumber = value
+            operation = "divide"
+            resultLabel.text = ""
+        case 14:
+            switch operation {
+            case "plus":
+                resultLabel.text = operations.Addition(firstValue: firstNumber, secondValue: value)
+            case "minus":
+                resultLabel.text = operations.Subtract(firstValue: firstNumber, secondValue: value)
+            case "multiply":
+                resultLabel.text = operations.Multiply(firstValue: firstNumber, secondValue: value)
+            case "divide":
+                resultLabel.text = operations.Divide(firstValue: firstNumber, secondValue: value)
+            default:
+                resultLabel.text = "ERROR"
+            }
+        case 15:
+            resultLabel.text = ""
+            firstNumber = 0
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        default:
+            resultLabel.text = "ERROR"
+        }
+
+        /*if sender.tag == 0 {
+            resultLabel.text = String(sqrt(value))
+        }
+        else if sender.tag == 10 {
+            firstNumber = value
+            operation = "plus"
+            resultLabel.text = ""
+        }
+        else if sender.tag == 11 {
+            isOperationButtonTapped.toggle()
+            firstNumber = value
+            operation = "minus"
+            resultLabel.text = ""
+        }
+        else if sender.tag == 12 {
+            isOperationButtonTapped.toggle()
+            firstNumber = value
+            operation = "multiply"
+            resultLabel.text = ""
+        }
+        else if sender.tag == 13 {
+            firstNumber = value
+            isOperationButtonTapped.toggle()
+            operation = "divide"
+            resultLabel.text = ""
+        }
+        else if sender.tag == 14 {
+            
+            switch operation {
+            case "plus":
+                resultLabel.text = operations.Addition(firstValue: firstNumber, secondValue: value)
+            case "minus":
+                resultLabel.text = operations.Subtract(firstValue: firstNumber, secondValue: value)
+            case "multiply":
+                resultLabel.text = operations.Multiply(firstValue: firstNumber, secondValue: value)
+            case "divide":
+                resultLabel.text = operations.Divide(firstValue: firstNumber, secondValue: value)
+            default:
+                resultLabel.text = "ERROR"
+            }
+            
+        }
+ */
     }
-    */
+    
+    
 
 }
